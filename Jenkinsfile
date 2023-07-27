@@ -2,11 +2,11 @@ pipeline {
     agent any
     environment {
         VERSION = "${env.BUILD_ID}"
-        AWS_ACCOUNT_ID="775012328020"
+        AWS_ACCOUNT_ID="540420926773"
         AWS_DEFAULT_REGION="us-east-1"
         IMAGE_REPO_NAME="my-image-repo"
         IMAGE_TAG= "${env.BUILD_ID}"
-        REPOSITORY_URI = "775012328020.dkr.ecr.us-east-1.amazonaws.com/my-image-repo"
+        REPOSITORY_URI = "540420926773.dkr.ecr.us-east-1.amazonaws.com/my-image-repo"
     }
     stages {
         
@@ -81,7 +81,7 @@ pipeline {
                         dir('kubernetes/') {
                           sh 'aws eks update-kubeconfig --name myAppp-eks-cluster --region us-east-1'
                           sh """aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
-                          sh 'helm upgrade --install --set image.repository="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}" --set image.tag="2" myjavaapp myapp/ '
+                          sh 'helm upgrade --install --set image.repository="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}" --set image.tag="${IMAGE_TAG}" myjavaapp myapp/ '
 
  
                         }
